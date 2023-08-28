@@ -18,7 +18,7 @@ import {
   deleteNote as deleteNoteMutation,
 } from "./graphql/mutations";
 
-const App = ({ signOut }) => {
+const App = ({ user, signOut }) => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -70,37 +70,41 @@ const App = ({ signOut }) => {
   }
   return (
     <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="row" justifyContent="center">
+      <Text alignSelf="flex-start">Logged in as <b>{user.username}</b><Button variation='link' onClick={signOut}>Sign out</Button></Text>
+      <Heading level={1} margin="2rem 0">Infinite Goods Onboarding</Heading>
+      <View as="form" margin="3rem 30rem" onSubmit={createNote}>
+        <Flex direction="column" justifyContent="center">
+          <Heading level={5}> Brand name</Heading>
           <TextField
             name="name"
-            placeholder="Note Name"
-            label="Note Name"
+            placeholder="Short answer text"
+            label="Brand Name"
             labelHidden
             variation="quiet"
             required
           />
+          <Heading level={5}>Short description</Heading>
           <TextField
             name="description"
-            placeholder="Note Description"
-            label="Note Description"
+            placeholder="Please describe your brand in less than 10 words"
+            label="Brand Description"
             labelHidden
             variation="quiet"
             required
           />
+          <Heading level={5}>Brand Image</Heading>
           <View
             name="image"
             as="input"
             type="file"
             style={{ alignSelf: "end" }}
           />
-          <Button type="submit" variation="primary">
-            Create Note
+          <Button type="submit" variation="primary" margin="0 5rem">
+            Submit 
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Notes</Heading>
+      <Heading level={2}>Current Submission</Heading>
       <View margin="3rem 0">
         {notes.map((note) => (
           <Flex
@@ -117,16 +121,15 @@ const App = ({ signOut }) => {
               <Image
                 src={note.image}
                 alt={`visual aid for ${notes.name}`}
-                style={{ width: 400 }}
+                style={{ width: 100 }}
               />
             )}
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
+            <Button  variation="link" onClick={() => deleteNote(note)}>
+              Delete Submission
             </Button>
           </Flex>
         ))}
       </View>
-      <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
 };
